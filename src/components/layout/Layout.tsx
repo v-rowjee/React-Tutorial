@@ -1,5 +1,5 @@
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import { Menu, X, Code2, LayoutDashboard, BookOpen, User } from 'lucide-react';
+import { Menu, X, Code2, LayoutDashboard, BookOpen, User, MessageCircle } from 'lucide-react';
 import { useState } from 'react';
 import Sidebar from '@/components/layout/Sidebar';
 import ThemeToggle from '@/components/ui/ThemeToggle';
@@ -15,6 +15,7 @@ export default function Layout() {
   const navLinks = [
     { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { to: '/curriculum', label: 'Curriculum', icon: BookOpen },
+    { to: '/ai-tutor', label: 'AI Tutor', icon: MessageCircle },
     { to: '/profile', label: 'Profile', icon: User },
   ];
 

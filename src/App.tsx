@@ -11,6 +11,7 @@ import Layout from '@/components/layout/Layout';
 import Landing from '@/pages/Landing';
 import Dashboard from '@/pages/Dashboard';
 import Curriculum from '@/pages/Curriculum';
+import AITutor from '@/pages/AITutor';
 import ChapterPage from '@/pages/ChapterPage';
 import Profile from '@/pages/Profile';
 
@@ -40,6 +41,7 @@ const AuthenticatedApp = () => {
       <Route element={<Layout />}>
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/curriculum" element={<Curriculum />} />
+        <Route path="/ai-tutor" element={<AITutor />} />
         <Route path="/chapter/:id" element={<ChapterPage />} />
         <Route path="/profile" element={<Profile />} />
       </Route>
