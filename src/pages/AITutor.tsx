@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Bot, Send, Sparkles, User, Wand2 } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { Bot, Send, Sparkles, User } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
@@ -56,6 +56,17 @@ export default function AITutor() {
   const [messages, setMessages] = useState(initialMessages);
   const [draft, setDraft] = useState('');
   const [isSending, setIsSending] = useState(false);
+  const textareaRef = useRef(null);
+
+  useEffect(() => {
+    const textarea = textareaRef.current;
+
+    if (!textarea) return;
+
+    textarea.style.height = '48px';
+    textarea.style.height = `${Math.min(Math.max(textarea.scrollHeight, 48), 128)}px`;
+    textarea.style.overflowY = textarea.scrollHeight > 128 ? 'auto' : 'hidden';
+  }, [draft]);
 
   const sendMessage = async (content = draft) => {
     const trimmed = content.trim();
@@ -103,10 +114,6 @@ export default function AITutor() {
             <h1 className="text-3xl font-bold font-heading">AI Tutor</h1>
           </div>
           <p className="text-muted-foreground">Chat with a React tutor while you work through the curriculum.</p>
-        </div>
-        <div className="flex items-center gap-2 rounded-xl border border-border bg-card/50 px-3 py-2 text-sm text-muted-foreground">
-          <Wand2 className="w-4 h-4 text-primary" />
-          Frontend preview
         </div>
       </div>
 
@@ -177,10 +184,11 @@ export default function AITutor() {
           >
             <div className="flex items-end gap-3">
               <Textarea
+                ref={textareaRef}
                 value={draft}
                 onChange={event => setDraft(event.target.value)}
                 placeholder="Ask about hooks, components, props, state..."
-                className="min-h-12 max-h-32 resize-none"
+                className="!min-h-12 max-h-32 resize-none overflow-hidden"
                 disabled={isSending}
               />
               <Button type="submit" size="icon" className="h-12 w-12 flex-shrink-0" aria-label="Send message" disabled={isSending}>
