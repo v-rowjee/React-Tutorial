@@ -7,7 +7,7 @@ from pydantic import BaseModel
 
 app = FastAPI()
 
-frontend_url = os.getenv("FRONTEND_URL", "http://localhost:5173")
+frontend_url = os.getenv("FRONTEND_URL", "http://localhost:5173").rstrip("/")
 
 app.add_middleware(
     CORSMiddleware,

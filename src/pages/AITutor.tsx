@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Bot, Send, Sparkles, User, Wand2 } from 'lucide-react';
+import ReactMarkdown from 'react-markdown';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { sendChatMessage } from '@/services/chatApi';
@@ -17,6 +18,39 @@ const initialMessages = [
     content: 'Hi, I am your React AI Tutor. Ask me about a concept, paste code you are stuck on, or request a quick quiz.',
   },
 ];
+
+function MarkdownMessage({ content }) {
+  return (
+    <ReactMarkdown
+      components={{
+        h1: ({ children }) => <h1 className="mb-3 text-xl font-bold leading-tight">{children}</h1>,
+        h2: ({ children }) => <h2 className="mb-2 mt-4 text-lg font-semibold leading-tight first:mt-0">{children}</h2>,
+        h3: ({ children }) => <h3 className="mb-2 mt-3 text-base font-semibold leading-tight first:mt-0">{children}</h3>,
+        p: ({ children }) => <p className="mb-3 last:mb-0">{children}</p>,
+        ul: ({ children }) => <ul className="mb-3 ml-5 list-disc space-y-1 last:mb-0">{children}</ul>,
+        ol: ({ children }) => <ol className="mb-3 ml-5 list-decimal space-y-1 last:mb-0">{children}</ol>,
+        li: ({ children }) => <li className="pl-1">{children}</li>,
+        strong: ({ children }) => <strong className="font-semibold">{children}</strong>,
+        code: ({ className, children }) => {
+          const isBlock = className?.startsWith('language-');
+
+          return isBlock ? (
+            <code className="block overflow-x-auto whitespace-pre rounded-lg bg-muted px-3 py-2 font-mono text-xs leading-relaxed text-foreground">
+              {children}
+            </code>
+          ) : (
+            <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-[0.85em] text-foreground">
+              {children}
+            </code>
+          );
+        },
+        pre: ({ children }) => <pre className="mb-3 overflow-x-auto last:mb-0">{children}</pre>,
+      }}
+    >
+      {content}
+    </ReactMarkdown>
+  );
+}
 
 export default function AITutor() {
   const [messages, setMessages] = useState(initialMessages);
@@ -108,7 +142,11 @@ export default function AITutor() {
                         : 'border border-border bg-background'
                     }`}
                   >
-                    {message.content}
+                    {isUser ? (
+                      <span className="whitespace-pre-wrap">{message.content}</span>
+                    ) : (
+                      <MarkdownMessage content={message.content} />
+                    )}
                   </div>
                   {isUser && (
                     <span className="mt-1 w-8 h-8 rounded-lg bg-secondary/50 flex items-center justify-center flex-shrink-0">
